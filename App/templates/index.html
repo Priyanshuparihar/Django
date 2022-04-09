@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Medicworks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <script src="../static/script.js"></script> -->
+
+    <link rel="stylesheet" href="../static/style.css">
+    <script>
+        function display_c() {
+            var refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_ct()', refresh)
+        }
+
+        function display_ct() {
+            var x = new Date()
+            var datetime = x.getFullYear() + '-' + (x.getMonth() + 1) + '-' + x.getDate() + ', ' + x.getHours() + ':' + x.getMinutes() + ':' + x.getSeconds();
+            document.getElementById('ct').innerHTML = datetime;
+            display_c();
+        }
+
+        function getAge(dateString) {
+            var birthDate = new Date(dateString);
+            var difference = Date.now() - birthDate.getTime();
+            var ageDate = new Date(difference);
+            var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+            return calculatedAge;
+        }
+
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api_patient',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function (PatientData) {
+                    document.getElementById('patientName').innerHTML = PatientData.first_name + ' ' + PatientData.last_name;
+                    var age = getAge(PatientData.DOB);
+                    document.getElementById('patientAge').innerHTML = age + ' Years';
+                    document.getElementById('patientBloodGroup').innerHTML = PatientData.blood_group;
+                    document.getElementById('patientHeight').innerHTML = PatientData.height + ' feet';
+                    document.getElementById('patientWeight').innerHTML = PatientData.weight;
+                    document.getElementById('patientContact').innerHTML = PatientData.mobile;
+                    document.getElementById('patientAddress').innerHTML = PatientData.address;
+                }
+
+            })
+        })
+
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api_sensor',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function (sensorData) {
+                    console.log(sensorData);
+                    let i = Object.keys(sensorData).length;
+                    const lstObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 1]]
+                    document.getElementById('roomtemperature').value = lstObject.Temperature;
+                    document.getElementById('oximeter').value = lstObject.Oximeter;
+                    document.getElementById('time').value = lstObject.Time;
+                }
+            })
+        })
+
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api_care_taker',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function (careTakerData) {
+                    document.getElementById('caretakername').innerHTML = careTakerData.first_name + ' ' + careTakerData.last_name;
+                    document.getElementById('caretakercontact').innerHTML = careTakerData.mobile;
+                    document.getElementById('caretakeremail').innerHTML = careTakerData.email;
+                    document.getElementById('caretakergender').innerHTML = careTakerData.gender;
+                    document.getElementById('caretakeraddress').innerHTML = careTakerData.address;
+                    console.log("Succes Fetch")
+                }
+
+            })
+            console.log("Faild Fetch")
+        })
+
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api_doctor',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function (doctorData) {
+                    document.getElementById('doctorname').innerHTML = doctorData.name;
+                    document.getElementById('doctordesignation').innerHTML = doctorData.designation;
+                    document.getElementById('doctorhospitalname').innerHTML = doctorData.email;
+                    document.getElementById('doctorContact').innerHTML = doctorData.mobile;
+                }
+
+            })
+        })
+
+    </script>
+</head>
+
+<body onload=display_ct();>
+    <aside class="sidebar">
+        <nav>
+            <ul class="sidebar__nav">
+                <li>
+                    <a href="#" class="sidebar__nav__link">
+                        <i class="fa fa-home"></i>
+                        <span class="sidebar__nav__text">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://127.0.0.1:8000/profile" class="sidebar__nav__link">
+                        <i class="fa fa-user-circle-o"></i>
+                        <span class="sidebar__nav__text">Patient Details</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://127.0.0.1:8000/careTaker" class="sidebar__nav__link">
+                        <i class="fa fa-handshake-o"></i>
+                        <span class="sidebar__nav__text">Care Taker Details</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://127.0.0.1:8000/doctorDetails" class="sidebar__nav__link">
+                        <i class="fa fa-user-md"></i>
+                        <span class="sidebar__nav__text">Doctor Details</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar__nav__link">
+                        <i class="fa fa-camera"></i>
+                        <span class="sidebar__nav__text">Live Streaming</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://127.0.0.1:8000/weeklyRecord" class="sidebar__nav__link">
+                        <i class="fa fa-history"></i>
+                        <span class="sidebar__nav__text">Weekly Record</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <div>
+        <div class="w3-teal w3-center w3-container">
+            <h1>Patient Medical Report</h1>
+            <h6>Today: <span id="ct"></span></h6>
+        </div>
+        <br>
+        <div class="marginleft">
+            <div class="w3-container container">
+                <span id="leftitem">
+                    <h6>Patient Name: <span id="patientName"></span> </h6>
+                    <h6>Patient Age: <span id="patientAge"></span></h6>
+                    <h6>Patient Blood Group: <span id="patientBloodGroup"></span></h6>
+                    <h6>Patient Height: <span id="patientHeight"></span></h6>
+                    <h6>Patient Weight: <span id="patientWeight"></span></h6>
+                </span>
+                <span id="rightitem">
+                    <h6>Patient Mobile Number: <span id="patientContact"></span> </h6>
+                    <h6 id="patientContact"></h6>
+                    <h6>Patient Address: <span id="patientAddress"></span> </h6>
+                    <h6 id="patientAddress"></h6>
+                </span>
+            </div>
+            <hr>
+            <h2 id="head">Real time Reading</h2>
+            <div class="realTime" style="text-align: center;">
+                <div>
+                    <label>Room Temperature: </label>
+                    <input type="number" id="roomtemperature" name="roomtemperature"
+                        style="font-weight: bold;font-size: 20px" readonly><br>
+                    <label>Oximeter: </label>
+                    <input type="number" id="oximeter" placeholder="Oxi." name="oximeter"
+                        style="font-weight: bold; font-size: 20px" readonly>
+                    <input type="text" id="time" placeholder="time" name="time" readonly
+                        style="width:140px;font-weight: bold; font-size: 15=px"><br><br><br>
+                </div>
+                <div>
+                    <div class="w3-bar button">
+                        <a href="#"><img src='../static/radio.png' length='50px' width='50px' id="btn"
+                                title='live Streaming'></a>&nbsp;&nbsp;&nbsp;
+                        <a href="#"><img src='../static/voice.png' length='50px' width='50px' id='btn'
+                                title='voice command'></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <h2 id="head">Care Taker Details</h2>
+            <div class="container w3-container marginleft">
+                <span id="leftitem">
+                    <h6>Care Taker Name: <span id="caretakername"></span></h6>
+                    <h6>Care Taker Phone Number: <span id="caretakercontact"></span></h6>
+                    <h6>Care Taker E-Mail: <span id="caretakeremail"></span></h6>
+                    <h6>Care Taker Gender: <span id="caretakergender"></span></h6>
+                    <h6>Care Taker Address: <span id="caretakeraddress"></span></h6>
+                </span>
+            </div>
+            <hr>
+
+            <div class="container doctordetails mystyle w3-container" style="margin-bottom: 60px;">
+                <span id="leftitem">
+                    <h6>Doctor Name: <span id="doctorname"></span></h6>
+                    <h6>Designation: <span id="doctordesignation"></span></h6>
+                </span>
+                <span id="rightitem">
+                    <h6>Hospital Name: <span id="doctorhospitalname"></span></h6>
+                    <h6>Phone Number: <span id="doctorContact"></span></h6>
+                </span>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

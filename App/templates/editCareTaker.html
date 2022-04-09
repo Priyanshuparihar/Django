@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Medicworks</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="../static/style.css">
+        <script>
+            function display_c(){
+                var refresh=1000; // Refresh rate in milli seconds
+                mytime=setTimeout('display_ct()',refresh)
+            }
+                
+            function display_ct() {
+                var x = new Date()
+                var datetime = x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate()+', '+x.getHours()+':'+x.getMinutes()+':'+x.getSeconds();
+                document.getElementById('ct').innerHTML = datetime;
+                display_c();
+            }
+            
+            $(document).ready(function() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api_care_taker',
+                    method:'GET',
+                    dataType:'JSON',
+                    success: function(careTakerData){
+                        document.getElementById('carefirstname').value= careTakerData.first_name;
+                        document.getElementById('carelastname').value = careTakerData.last_name;
+                        document.getElementById('caredob').value = careTakerData.DOB;
+                        document.getElementById('careemail').value = careTakerData.email;
+                        document.getElementById('carecontact').value = careTakerData.mobile;
+                        document.getElementById('caregender').value= careTakerData.gender;
+                        document.getElementById('careaddress').value= careTakerData.address;
+                        document.getElementById('carepin').value= careTakerData.pin_code;
+                        document.getElementById('carecountry').value= careTakerData.country;
+                        document.getElementById('carestate').value= careTakerData.state;
+                        document.getElementById('carecity').value= careTakerData.city;
+                    }
+
+                })
+            })
+
+            function submitInputHandler(){
+                $(document).ready(function() {
+                    $.ajax({
+                        url: 'http://127.0.0.1:8000/api_care_taker',
+                        method:'POST',
+                        dataType:'JSON',
+                        success: function(careTakerData){
+                            careTakerData.first_name = document.getElementById('carefirstname');
+                        }
+    
+                    })
+                })
+                
+            }
+        </script>
+    </head>
+    <body onload=display_ct();>
+        <aside class="sidebar">
+            <nav>
+              <ul class="sidebar__nav">
+                <li>
+                  <a href="http://127.0.0.1:8000/index" class="sidebar__nav__link">
+                    <i class="fa fa-home"></i>
+                    <span class="sidebar__nav__text">Home</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="http://127.0.0.1:8000/profile" class="sidebar__nav__link">
+                    <i class="fa fa-user-circle-o"></i>
+                    <span class="sidebar__nav__text">Patient Details</span>
+                  </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar__nav__link">
+                      <i class="fa fa-handshake-o"></i>
+                      <span class="sidebar__nav__text">Care Taker Details</span>
+                    </a>
+                </li>
+                <li>
+                  <a href="http://127.0.0.1:8000/doctorDetails" class="sidebar__nav__link">
+                    <i class="fa fa-user-md"></i>
+                    <span class="sidebar__nav__text">Doctor Details</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="sidebar__nav__link">
+                    <i class="fa fa-camera"></i>
+                    <span class="sidebar__nav__text">Live Streaming</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="http://127.0.0.1:8000/weeklyRecord" class="sidebar__nav__link">
+                    <i class="fa fa-history"></i>
+                    <span class="sidebar__nav__text">Weekly Record</span>
+                  </a>
+                </li> 
+              </ul>
+            </nav>
+        </aside>
+        <div style="margin-bottom:55px">
+            <div class="w3-container w3-teal w3-center">
+                <h1>Edit Care Taker Details</h1>
+                <h6>Today: <span id="ct"></span></h6>
+            </div>
+            <br>
+            <form method="post" id="patientDetails">
+                {% csrf_token %}
+                
+                <table  cellpadding = "10" align="center">
+                    <tr>
+                        <td>FIRST NAME</td>
+                        <td><input type="text" name="First_Name" id="carefirstname" maxlength="30" style="border-radius: 10px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>LAST NAME</td>
+                        <td><input type="text" name="Last_Name" id="carelastname" maxlength="30" style="border-radius: 10px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DATE OF BIRTH</td>
+                        <td><input type="date" name="dob" id="caredob" style="border-radius: 10px;" ></td>
+                    </tr>
+                    <tr>
+                        <td>EMAIL ID</td>
+                        <td><input type="email" name="Email_Id" maxlength="100" id="careemail" style="border-radius: 10px;" /></td>
+                    </tr>
+                    <tr>
+                        <td>MOBILE NUMBER</td>
+                        <td><input type="number" name="Mobile_Number" maxlength="10" id="carecontact" style="border-radius: 10px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>GENDER</td>
+                        <td>
+                            <select name="gender" id="caregender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ADDRESS <br /><br /><br /></td>
+                        <td><textarea name="Address" rows="4" cols="30" id="careaddress" style="border-radius: 10px;" ></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>PIN CODE</td>
+                        <td><input type="number" name="Pin_Code" maxlength="6" id="carepin" style="border-radius: 10px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>COUNTRY</td>
+                        <td>
+                            <input type="text" name="Country" id="carecountry" style="border-radius: 10px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>STATE</td>
+                        <td>
+                            <input type="text" name="Country" id="carestate" style="border-radius: 10px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CITY</td>
+                        <td>
+                            <input type="text" name="Country" id="carecity" style="border-radius: 10px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                    <td colspan="2" align="center" >
+                            <input type="submit" name="SubmitButton" value="Submit" class="submit" style="border-radius: 10px; width: 100px;" onclick="submitInputHandler()">
+                            <input type="reset" name="ResetButton" value="Reset" class="reset" style="border-radius: 10px;width: 100px;">
+                    </td>
+                    </tr>
+                </table>
+            </form>
+            <br>
+        </div>
+    </body>
+</html>

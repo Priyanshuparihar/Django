@@ -22,6 +22,7 @@ class Patient(models.Model):
 	pin_code = models.IntegerField()
 	state = models.CharField(max_length=50)
 	country = models.CharField(max_length=50)
+	city = models.CharField(max_length=50)
 	weight = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
 	height = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
 	medical_history = models.CharField(max_length=254)
@@ -40,5 +41,18 @@ class Care_Taker(models.Model):
 	pin_code = models.IntegerField()
 	state = models.CharField(max_length=50)
 	country = models.CharField(max_length=50)
+
+class Doctor(models.Model):
+	name = models.CharField(max_length=30)
+	age = models.IntegerField()
+	email =  models.EmailField(max_length = 254)
+	experience = models.IntegerField()
+	designation = models.CharField(max_length=30)
+	mobile = models.CharField(max_length=10)
+	hospital_name = models.CharField(max_length=50)
+	hospital_address = models.CharField(max_length=254)
+
+
+
 
 

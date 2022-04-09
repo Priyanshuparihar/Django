@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Medicworks</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="../static/style.css">
+    </head>
+    <body onload=display_ct();>
+        <aside class="sidebar">
+            <nav>
+              <ul class="sidebar__nav">
+                <li>
+                  <a href="http://127.0.0.1:8000/index#" class="sidebar__nav__link">
+                    <i class="fa fa-home"></i>
+                    <span class="sidebar__nav__text">Home</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="http://127.0.0.1:8000/profile" class="sidebar__nav__link">
+                    <i class="fa fa-user-circle-o"></i>
+                    <span class="sidebar__nav__text">Patient Details</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="http://127.0.0.1:8000/careTaker" class="sidebar__nav__link">
+                    <i class="fa fa-handshake-o"></i>
+                    <span class="sidebar__nav__text">Care Taker Details</span>
+                  </a>
+              </li>
+                <li>
+                  <a href="#" class="sidebar__nav__link">
+                    <i class="fa fa-user-md"></i>
+                    <span class="sidebar__nav__text">Doctor Details</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="sidebar__nav__link">
+                    <i class="fa fa-camera"></i>
+                    <span class="sidebar__nav__text">Live Streaming</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="http://127.0.0.1:8000/weeklyRecord" class="sidebar__nav__link">
+                    <i class="fa fa-history"></i>
+                    <span class="sidebar__nav__text">Weekly Record</span>
+                  </a>
+                </li> 
+              </ul>
+            </nav>
+        </aside>
+        <div id="main">
+            <div class="w3-container w3-teal w3-center">
+                <h1>Edit Doctor Details</h1>
+                <h6>Today: <span id="ct"></span></h6>
+            </div>
+            <table cellpadding = "10" align="center" style="margin-bottom: 50px;">
+                <tr>
+                    <td>DOCTOR NAME</td>
+                    <td><input type="text" name="DOoctor_Name" id="doctorname" maxlength="30" style="border-radius: 10px;" />
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>DOCTOR AGE</td>
+                    <td><input type="number" name="Doctor_Age" id="doctorage" style="border-radius: 10px;" /></td>
+                </tr>
+                <tr>
+                    <td>DOCTOR EMAIL ID</td>
+                    <td><input type="email" name="Doctor_Email_Id" maxlength="100" id="doctoremail" style="border-radius: 10px;" /></td>
+                </tr>
+                <tr>
+                    <td>DOCTOR EXPERIENCE</td>
+                    <td><input type="number" name="Doctor_Experience" maxlength="10" id="doctorexperience" style="border-radius: 10px;" />
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>DOCTOR DESIGNATION</td>
+                    <td><input type="text" name="Doctor_Designation" maxlength="30" id="doctordesignation" style="border-radius: 10px;" />
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>DOCTOR MOBILE NUMBER</td>
+                    <td><input type="number" name="Doctor_Mobile_Number" maxlength="10" id="doctorcontact"  style="border-radius: 10px;"/>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>DOCTOR HOSPITAL NAME <br /><br /><br /></td>
+                    <td><input type="text" name="Doctor_Hospital_Name" id="hospitalname" maxlength="30" style="border-radius: 10px;"/>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>DOCTOR HOSPITAL ADDRESS <br /><br /><br /></td>
+                    <td><textarea name="Doctor_Hospital_Address" rows="4" cols="30" id="hospitaladdress" style="border-radius: 10px;" ></textarea></td>
+                </tr>
+            </table>
+            <br>
+        </div>
+    </body>
+    <script>
+      function display_c(){
+          var refresh=1000; // Refresh rate in milli seconds
+          mytime=setTimeout('display_ct()',refresh)
+      }
+          
+      function display_ct() {
+          var x = new Date()
+          var datetime = x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate()+', '+x.getHours()+':'+x.getMinutes()+':'+x.getSeconds();
+          document.getElementById('ct').innerHTML = datetime;
+          display_c();
+      }
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api_doctor',
+                method:'GET',
+                dataType:'JSON',
+                success: function(doctorData){
+                    document.getElementById('doctorname').value = doctorData.name;
+                    document.getElementById('doctorage').value = doctorData.age;
+                    document.getElementById('doctoremail').value = doctorData.email;
+                    document.getElementById('doctorexperience').value = doctorData.experience;
+                    document.getElementById('doctordesignation').value = doctorData.designation;
+                    document.getElementById('doctorcontact').value = doctorData.mobile;
+                    document.getElementById('hospitalname').value = doctorData.hospital_name;
+                    document.getElementById('hospitaladdress').value = doctorData.hospital_address;
+                }
+
+            })
+        })
+    </script>
+</html>

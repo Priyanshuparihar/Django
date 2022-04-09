@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Medicworks</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="../static/style.css">
+        <style>
+            td,td {
+                border:1px solid black;
+            }
+        </style>
+    </head>
+    <body onload=display_ct();>
+        <aside class="sidebar">
+            <nav>
+              <ul class="sidebar__nav">
+                <li>
+                  <a href="http://127.0.0.1:8000/index#" class="sidebar__nav__link">
+                    <i class="fa fa-home"></i>
+                    <span class="sidebar__nav__text">Home</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="http://127.0.0.1:8000/profile" class="sidebar__nav__link">
+                    <i class="fa fa-user-circle-o"></i>
+                    <span class="sidebar__nav__text">Patient Details</span>
+                  </a>
+                </li>
+                <li>
+                    <a href="http://127.0.0.1:8000/careTaker" class="sidebar__nav__link">
+                      <i class="fa fa-handshake-o"></i>
+                      <span class="sidebar__nav__text">Care Taker Details</span>
+                    </a>
+                </li>
+                <li>
+                  <a href="http://127.0.0.1:8000/doctorDetails" class="sidebar__nav__link">
+                    <i class="fa fa-user-md"></i>
+                    <span class="sidebar__nav__text">Doctor Details</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="sidebar__nav__link">
+                    <i class="fa fa-camera"></i>
+                    <span class="sidebar__nav__text">Live Streaming</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="sidebar__nav__link">
+                    <i class="fa fa-history"></i>
+                    <span class="sidebar__nav__text">Weekly Record</span>
+                  </a>
+                </li> 
+              </ul>
+            </nav>
+        </aside>
+        <div id="main">
+            <div class="w3-teal w3-center w3-container">
+                <h1>Weekly Records</h1>
+                <h6>Today: <span id="ct"></span></h6>
+            </div>
+            <div style="margin-left: 20px">
+                <canvas id="lineChart"></canvas><br>
+                <h2 style:"text-align: center;">Sensors Data</h2>
+                <center>
+                    <table style="border: 2px solid black; text-align: center; width: 80%; margin-bottom: 50px;" id="myTable">
+                        <tr>
+                            <th style="border: 1px solid black;  background-color:#D3D3D3">Temperature</th>
+                            <th style="border: 1px solid black;  background-color:lightgray">Oximeter</th>
+                            <th style="border: 1px solid black;  background-color:lightgray">Time and Date</th>
+                        </tr>
+                        <tr>
+                            <td id="data11"></td>
+                            <td id="data12"></td>
+                            <td id="data13"></td>
+                        </tr>
+                        <tr>
+                            <td id="data21"></td>
+                            <td id="data22"></td>
+                            <td id="data23"></td>
+                        </tr>
+                        <tr>
+                            <td id="data31"></td>
+                            <td id="data32"></td>
+                            <td id="data33"></td>
+                        </tr>
+                        <tr>
+                            <td id="data41"></td>
+                            <td id="data42"></td>
+                            <td id="data43"></td>
+                        </tr>
+                        <tr>
+                            <td id="data51"></td>
+                            <td id="data52"></td>
+                            <td id="data53"></td>
+                        </tr>
+                        <tr>
+                            <td id="data61"></td>
+                            <td id="data62"></td>
+                            <td id="data63"></td>
+                        </tr>
+                        <tr>
+                            <td id="data71"></td>
+                            <td id="data72"></td>
+                            <td id="data73"></td>
+                        </tr>
+                    </table>
+                </center>
+                <br>
+            </div>
+            
+        </div>
+    </body>
+    <script>
+
+        function display_c(){
+            var refresh=1000; // Refresh rate in milli seconds
+            mytime=setTimeout('display_ct()',refresh)
+        }
+            
+        function display_ct() {
+            var x = new Date()
+            var datetime = x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate()+', '+x.getHours()+':'+x.getMinutes()+':'+x.getSeconds();
+            document.getElementById('ct').innerHTML = datetime;
+            display_c();
+        }
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api_sensor',
+                method:'GET',
+                dataType:'JSON',
+                success: function(sensorData){
+
+                    const firstObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 1]]
+                    const secondObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 2]]
+                    const thirdObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 3]]
+                    const fourthObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 4]]
+                    const fivthObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 5]]
+                    const sixthObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 6]]
+                    const seventhObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 7]]
+                    const firstoxi = firstObject.Oximeter;
+                    const secondoxi = secondObject.Oximeter;
+                    const thirdoxi = thirdObject.Oximeter;
+                    const fourthoxi = fourthObject.Oximeter;
+                    const fivthoxi = fivthObject.Oximeter;
+                    const sixthoxi = sixthObject.Oximeter;
+                    const seventhoxi = seventhObject.Oximeter;
+                    const firstTemp = firstObject.Temperature;
+                    const secondTemp = secondObject.Temperature;
+                    const thirdTemp = thirdObject.Temperature;
+                    const fourthTemp = fourthObject.Temperature;
+                    const fivthTemp = fivthObject.Temperature;
+                    const sixthTemp = sixthObject.Temperature;
+                    const seventhTemp = seventhObject.Temperature;
+
+                    var ctxL = document.getElementById("lineChart").getContext('2d');
+                    var myLineChart = new Chart(ctxL, {
+                        type: 'line',
+                        data: {
+                            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                            datasets: 
+                            [
+                                {
+                                    label: "Oximeter Reading",
+                                    data: [seventhoxi, sixthoxi, fivthoxi, fourthoxi, thirdoxi, secondoxi, firstoxi],
+                                    borderColor: ['rgba(200, 99, 132, .7)',],
+                                    borderWidth: 7
+                                },
+                                {
+                                    label: "Room Temperature Reading",
+                                    data: [seventhTemp, sixthTemp, fivthTemp, fourthTemp, thirdTemp, secondTemp, firstTemp],
+                                    borderColor: ['rgba(0, 49, 82, .7)',],
+                                    borderWidth: 7
+                                },
+                            ]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+                }
+            })
+        })
+        
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api_sensor',
+                method:'GET',
+                dataType:'JSON',
+                success: function(sensorData){
+
+                    const firstObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 1]]
+                    const secondObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 2]]
+                    const thirdObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 3]]
+                    const fourthObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 4]]
+                    const fivthObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 5]]
+                    const sixthObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 6]]
+                    const seventhObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 7]]
+                    const firstoxi = firstObject.Oximeter;
+                    const secondoxi = secondObject.Oximeter;
+                    const thirdoxi = thirdObject.Oximeter;
+                    const fourthoxi = fourthObject.Oximeter;
+                    const fivthoxi = fivthObject.Oximeter;
+                    const sixthoxi = sixthObject.Oximeter;
+                    const seventhoxi = seventhObject.Oximeter;
+                    //const firstTime = firstObject.Time;
+                    //const secondTime = secondObject.Time;
+                    //const thirdTime = thirdObject.Time;
+                    //const fourthTime = fourthObject.Time;
+                    //const fivthTime = fivthObject.Time;
+                    //const sixthTime = sixthObject.Time;
+                    //const seventhTime = seventhObject.Time;
+                    document.getElementById('data11').innerHTML = firstObject.Temperature;
+                    document.getElementById('data12').innerHTML = firstoxi;
+                    document.getElementById('data13').innerHTML = firstObject.Time;
+
+                    document.getElementById('data21').innerHTML = secondObject.Temperature;
+                    document.getElementById('data22').innerHTML = secondoxi;
+                    document.getElementById('data23').innerHTML = secondObject.Time;
+
+                    document.getElementById('data31').innerHTML = thirdObject.Temperature;
+                    document.getElementById('data32').innerHTML = thirdoxi;
+                    document.getElementById('data33').innerHTML = thirdObject.Time;
+
+                    document.getElementById('data41').innerHTML = fourthObject.Temperature;
+                    document.getElementById('data42').innerHTML = fourthoxi;
+                    document.getElementById('data43').innerHTML = fourthObject.Time;
+
+                    document.getElementById('data51').innerHTML = fivthObject.Temperature;
+                    document.getElementById('data52').innerHTML = fivthoxi;
+                    document.getElementById('data53').innerHTML = fivthObject.Time;
+
+                    document.getElementById('data61').innerHTML = sixthObject.Temperature;
+                    document.getElementById('data62').innerHTML = sixthoxi;
+                    document.getElementById('data63').innerHTML = sixthObject.Time;
+
+                    document.getElementById('data71').innerHTML = seventhObject.Temperature;
+                    document.getElementById('data72').innerHTML = seventhoxi;
+                    document.getElementById('data73').innerHTML = seventhObject.Time;
+                }
+            })
+        })
+        
+    </script>
+</html>

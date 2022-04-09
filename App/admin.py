@@ -39,7 +39,20 @@ class Care_Taker_Admin(admin.ModelAdmin):
 	"state",
 	"country"]
 
+class Doctor_Admin(admin.ModelAdmin):
+	list_display =[
+	"name", 
+	"age", 
+	"email", 
+	"experience",
+	"designation",
+	"mobile", 
+	"hospital_name", 
+	"hospital_address"
+	]
+
 admin.site.register(Care_Taker,Care_Taker_Admin)
 admin.site.register(Sensor,Sensor_Admin)
 admin.site.register(Patient,Patient_Admin)
+admin.site.register(Doctor,Doctor_Admin)
 		

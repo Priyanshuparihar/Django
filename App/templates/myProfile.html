@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Medicworks</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="../static/style.css">
+        <script>
+
+            function display_c(){
+                var refresh=1000; // Refresh rate in milli seconds
+                mytime=setTimeout('display_ct()',refresh)
+            }
+                
+            function display_ct() {
+                var x = new Date()
+                var datetime = x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate()+', '+x.getHours()+':'+x.getMinutes()+':'+x.getSeconds();
+                document.getElementById('ct').innerHTML = datetime;
+                display_c();
+            }
+            $(document).ready(function() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api_patient',
+                    method:'GET',
+                    dataType:'JSON',
+                    success: function(PatientData){
+                        console.log(PatientData);
+                        document.getElementById('firstname').value = PatientData.first_name;
+                        document.getElementById('lastname').value = PatientData.last_name;
+                        document.getElementById('dob').value = PatientData.DOB;
+                        document.getElementById('email').value = PatientData.email;
+                        document.getElementById('contact').value = PatientData.mobile;
+                        document.getElementById('gender').value = PatientData.gender;
+                        document.getElementById('bg').value = PatientData.blood_group;   
+                        document.getElementById('address').value = PatientData.address;
+                        document.getElementById('pin').value = PatientData.pin_code;
+                        document.getElementById('country').value = PatientData.state;
+                        document.getElementById('state').value = PatientData.country;
+                        document.getElementById('city').value = PatientData.city;
+                        document.getElementById('weight').value = PatientData.weight;
+                        document.getElementById('height').value = PatientData.height;
+                        document.getElementById('medhis').value = PatientData.medical_history;
+                        document.getElementById('medprob').value = PatientData.medical_problems;
+                        document.getElementById('allergies').value = PatientData.allergies;
+    
+                    }
+
+                })
+            })
+
+        </script>
+    </head>
+    <body onload=display_ct();>
+        <aside class="sidebar">
+            <nav>
+              <ul class="sidebar__nav">
+                <li>
+                  <a href="http://127.0.0.1:8000/index" class="sidebar__nav__link">
+                    <i class="fa fa-home"></i>
+                    <span class="sidebar__nav__text">Home</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="sidebar__nav__link">
+                    <i class="fa fa-user-circle-o"></i>
+                    <span class="sidebar__nav__text">Patient Details</span>
+                  </a>
+                </li>
+                <li>
+                    <a href="http://127.0.0.1:8000/careTaker" class="sidebar__nav__link">
+                      <i class="fa fa-handshake-o"></i>
+                      <span class="sidebar__nav__text">Care Taker Details</span>
+                    </a>
+                </li>
+                <li>
+                  <a href="http://127.0.0.1:8000/doctorDetails" class="sidebar__nav__link">
+                    <i class="fa fa-user-md"></i>
+                    <span class="sidebar__nav__text">Doctor Details</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="sidebar__nav__link">
+                    <i class="fa fa-camera"></i>
+                    <span class="sidebar__nav__text">Live Streaming</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="http://127.0.0.1:8000/weeklyRecord" class="sidebar__nav__link">
+                    <i class="fa fa-history"></i>
+                    <span class="sidebar__nav__text">Weekly Record</span>
+                  </a>
+                </li> 
+              </ul>
+            </nav>
+        </aside>
+        <div>
+            <div class="w3-container w3-teal w3-center">
+                <span id="leftitem" style="margin-left: 55px">
+                    <h1>Patient Details</h1>
+                    <h6>Today: <span id="ct"></span></h6>
+                </span>
+                <span id="rightitem">
+                    <button 
+                        class="w3-right button"
+                        style="background-color: #4CAF50; 
+                            border: none;
+                            font-size: 17px;
+                            color: white;
+                            padding: 15px ;
+                            text-align: center;
+                            text-decoration: none;
+                            display: inline-block;
+                            margin: 14px 2px;
+                            border-radius:50%;
+                            cursor: pointer;">
+                        <a href='http://127.0.0.1:8000/ProfileEdit'><i class="fa fa-pencil"></i></a>
+                    </button>
+                </span>
+            </div>
+            <br>
+            <form method="post" id="patientDetails" style="margin-bottom: 70px;">
+                <table cellpadding = "10" align="center">
+                    <tr>
+                        <td>FIRST NAME</td>
+                        <td><input type="text" name="First_Name" id="firstname" maxlength="30" style="border-radius: 10px;" readonly />
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>LAST NAME</td>
+                        <td><input type="text" name="Last_Name" id="lastname" maxlength="30" style="border-radius: 10px;" readonly/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DATE OF BIRTH</td>
+                        <td><input type="date" name="dob" id="dob" style="border-radius: 10px;" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>EMAIL ID</td>
+                        <td><input type="email" name="Email_Id" maxlength="100" id="email" style="border-radius: 10px;" readonly /></td>
+                    </tr>
+                    <tr>
+                        <td>MOBILE NUMBER</td>
+                        <td><input type="number" name="Mobile_Number" maxlength="10" id="contact" style="border-radius: 10px;"readonly/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>GENDER</td>
+                        <td>
+                            <select name="gender" id="gender" >
+                                <option value="male" disabled>male</option>
+                                <option value="female" disabled>female</option>
+                                <option value="others" disabled>others</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BLOOD GROUP</td>
+                        <td>
+                            <select name="BG" id="bg">
+                                <option value="A+" disabled>A+</option>
+                                <option value="A-" disabled>A-</option>
+                                <option value="B+" disabled>B+</option>
+                                <option value="B-" disabled>B-</option>
+                                <option value="O+" disabled>O+</option>
+                                <option value="O-" disabled>O-</option>
+                                <option value="AB+" disabled>AB+</option>
+                                <option value="AB-" disabled>AB-</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ADDRESS <br /><br /><br /></td>
+                        <td><textarea name="Address" rows="4" cols="30" id="address" style="border-radius: 10px;" readonly></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>PIN CODE</td>
+                        <td><input type="number" name="Pin_Code" maxlength="6" id="pin" style="border-radius: 10px;" readonly/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>COUNTRY</td>
+                        <td>
+                            <input type="text" name="Country" id="country" style="border-radius: 10px;"readonly/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>STATE</td>
+                        <td>
+                            <input type="text" name="State" id="state" style="border-radius: 10px;"readonly/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CITY</td>
+                        <td>
+                            <input type="text" name="City" id="city" style="border-radius: 10px;"readonly/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Weight</td>
+                        <td><input type="text" name="Weight" id="weight" style="border-radius: 10px;" placeholder="(in kg)"readonly/></td>
+                    </tr>
+                    <tr>
+                        <td>Height</td>
+                        <td><input type="text" name="Height" id="height" style="border-radius: 10px;" readonly>(in cm) </td>
+                    </tr>
+                    <tr>
+                        <td>Significant Medical History<br>(surgery,injuries,serious illness): <br><br></td>
+                        <td><textarea name="Medical history" rows="4" cols="30" id="medhis" style="border-radius: 10px;" readonly></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>List Medical Problems<br>(asthma,seizures,headaches):<br><br></td>
+                        <td><textarea name="Medical Problem" rows="4" cols="30" id="medprob" style="border-radius: 10px;" readonly ></textarea></td>
+                    </tr> 
+                    <tr>
+                        <td>List Any Allergies: <br /><br /><br /></td>
+                        <td><textarea name="Allergies" rows="4" cols="30" id="allergies" style="border-radius: 10px;" readonly ></textarea></td>
+                    </tr>
+                </table>
+                <br>
+            </form>
+            <br>
+        </div>
+    </body>
+</html>
