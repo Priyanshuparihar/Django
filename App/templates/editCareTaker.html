@@ -43,19 +43,47 @@
             })
 
             function submitInputHandler(){
-                $(document).ready(function() {
-                    $.ajax({
-                        url: 'http://127.0.0.1:8000/api_care_taker',
-                        method:'POST',
-                        dataType:'JSON',
-                        success: function(careTakerData){
-                            careTakerData.first_name = document.getElementById('carefirstname');
-                        }
-    
-                    })
-                })
-                
+                const url = 'http://127.0.0.1:8000/api_care_taker';
+                const firstname = document.getElementById('carefirstname').value;
+                const lastname = document.getElementById('carelastname').value;
+                const dob = document.getElementById('caredob').value;
+                const email = document.getElementById('careemail').value;
+                const contact = document.getElementById('carecontact').value;
+                const gender = document.getElementById("caregender").value;
+                const address = document.getElementById("careaddress").value;
+                const pin = document.getElementById("carepin").value;
+                const country = document.getElementById("carecountry").value;
+                const state = document.getElementById("carestate").value;
+                const city = document.getElementById("carecity").value;
+
+                const data = {
+                    "first_name": firstname,
+                    "last_name": lastname,
+                    "DOB": dob,
+                    "email": email,
+                    "mobile": contact,
+                    "gender": gender,
+                    "address": address,
+                    "city": city,
+                    "pin_code": pin,
+                    "state": country,
+                    "country": state
+                };
+                const data1 = JSON.stringify(data);
+                console.log(data1);
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    success: function (
+                        data,
+                        ) {
+                        console.log(data);
+                    }
+                });
+                window.location.replace('http://127.0.0.1:8000/careTaker');
             }
+
         </script>
     </head>
     <body onload=display_ct();>
@@ -75,7 +103,7 @@
                   </a>
                 </li>
                 <li>
-                    <a href="#" class="sidebar__nav__link">
+                    <a href="http://127.0.0.1:8000/careTaker" class="sidebar__nav__link">
                       <i class="fa fa-handshake-o"></i>
                       <span class="sidebar__nav__text">Care Taker Details</span>
                     </a>
@@ -172,10 +200,10 @@
                         </td>
                     </tr>
                     <tr>
-                    <td colspan="2" align="center" >
-                            <input type="submit" name="SubmitButton" value="Submit" class="submit" style="border-radius: 10px; width: 100px;" onclick="submitInputHandler()">
-                            <input type="reset" name="ResetButton" value="Reset" class="reset" style="border-radius: 10px;width: 100px;">
-                    </td>
+                        <td colspan="2" align="center" >
+                                <input type="submit" name="SubmitButton" value="Submit" class="submit" style="border-radius: 10px; width: 100px;" onclick="submitInputHandler()">
+                                <input type="reset" name="ResetButton" value="Reset" class="reset" style="border-radius: 10px;width: 100px;">
+                        </td>
                     </tr>
                 </table>
             </form>

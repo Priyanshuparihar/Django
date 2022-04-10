@@ -31,7 +31,7 @@
                   </a>
               </li>
                 <li>
-                  <a href="#" class="sidebar__nav__link">
+                  <a href="http://127.0.0.1:8000/doctorDetails" class="sidebar__nav__link">
                     <i class="fa fa-user-md"></i>
                     <span class="sidebar__nav__text">Doctor Details</span>
                   </a>
@@ -73,7 +73,7 @@
                 </tr>
                 <tr>
                     <td>DOCTOR EXPERIENCE</td>
-                    <td><input type="number" name="Doctor_Experience" maxlength="10" id="doctorexperience" style="border-radius: 10px;" />
+                    <td><input type="text" name="Doctor_Experience" maxlength="10" id="doctorexperience" style="border-radius: 10px;" />
                         
                     </td>
                 </tr>
@@ -98,6 +98,12 @@
                 <tr>
                     <td>DOCTOR HOSPITAL ADDRESS <br /><br /><br /></td>
                     <td><textarea name="Doctor_Hospital_Address" rows="4" cols="30" id="hospitaladdress" style="border-radius: 10px;" ></textarea></td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="center" >
+                          <input type="submit" name="SubmitButton" value="Submit" class="submit" style="border-radius: 10px; width: 100px;" onclick="submitInputHandler()">
+                          <input type="reset" name="ResetButton" value="Reset" class="reset" style="border-radius: 10px;width: 100px;">
+                  </td>
                 </tr>
             </table>
             <br>
@@ -133,5 +139,42 @@
 
             })
         })
+
+      function submitInputHandler(){
+          const url = 'http://127.0.0.1:8000/api_doctor';
+          const doctorname = document.getElementById('doctorname').value;
+          const doctorage = document.getElementById('doctorage').value;
+          const doctoremail = document.getElementById('doctoremail').value;
+          const doctorexperience = document.getElementById('doctorexperience').value;
+          const doctordesignation = document.getElementById('doctordesignation').value;
+          const doctorcontact = document.getElementById('doctorcontact').value;
+          const hospitalname = document.getElementById('hospitalname').value;
+          const hospitaladdress = document.getElementById('hospitaladdress').value;
+
+          const data = {
+            "name": doctorname,
+            "age": doctorage,
+            "email": doctoremail,
+            "experience": doctorexperience,
+            "designation": doctordesignation,
+            "mobile": doctorcontact,
+            "hospital_name": hospitalname,
+            "hospital_address": hospitaladdress
+          };
+          const data1 = JSON.stringify(data);
+          console.log(data1);
+          $.ajax({
+              type: "POST",
+              url: url,
+              data: data,
+              success: function (
+                  data,
+                  ) {
+                  console.log(data);
+              }
+          });
+          window.location.replace('http://127.0.0.1:8000/doctorDetails');
+      }
+
     </script>
 </html>
