@@ -5,7 +5,8 @@ from django.utils import timezone
 
 class Sensor(models.Model):
 	time = models.DateTimeField(auto_now = True)
-	oximeter = models.DecimalField(max_digits=20, decimal_places=5, default=0.00)
+	spo2 = models.DecimalField(max_digits=20, decimal_places=5, default=0.00)
+	bpm = models.DecimalField(max_digits=20, decimal_places=5, default=0.00)
 	temp = models.DecimalField(max_digits=20, decimal_places=5, default=0.00)
 	# temp = models.CharField(max_length=255,null=True)
 
@@ -52,7 +53,18 @@ class Doctor(models.Model):
 	hospital_name = models.CharField(max_length=50)
 	hospital_address = models.CharField(max_length=254)
 
+class Stream(models.Model):
+	link = models.CharField(max_length=50)
 
+class Medicine(models.Model):
+	id = models.AutoField(primary_key=True)
+	medicine_name = models.CharField(max_length=50)
+	description = models.CharField(max_length=254)
+	days = models.CharField(max_length=254)
+	time =  models.TimeField()
 
+class Audio(models.Model):
+	time = models.DateTimeField(auto_now = True)
+	record=models.FileField(upload_to= "audios/")
 
 

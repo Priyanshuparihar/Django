@@ -35,5 +35,9 @@ urlpatterns = [
     # path("update_care_taker",update_care_taker),
     path("api_doctor",api_doctor),
     # path("update_doctor",update_doctor)
+    path("api_stream",api_stream),
+    path("api_medicine",api_medicine),
+    path("delete_medicine/<int:pk>",delete_medicine),
+    path("api_audio",api_audio),
 
 ]

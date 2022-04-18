@@ -1,6 +1,8 @@
+import re
 from unicodedata import name
 from django.shortcuts import render
 from django.http import HttpResponse
+from numpy import record
 from .models import *
 # Create your views here.
 from rest_framework import status
@@ -47,7 +49,8 @@ def api_sensor(request):
 			for i in t.iterator():
 				data[j] = {
 							"Time" : i.time.strftime("%Y-%m-%d %H:%M:%S"), 
-							"Oximeter" : i.oximeter, 
+							"spo2" : i.spo2,
+							"bpm" : i.bpm, 
 							"Temperature" : i.temp
 						}
 				j+=1
@@ -58,11 +61,13 @@ def api_sensor(request):
 			return Response(data=data,status=status.HTTP_404_NOT_FOUND)
 	elif(request.method == "POST"):
 		try:
-			oximeter = request.data["oximeter"]
+			spo2 = request.data["spo2"]
+			bpm = request.data["bpm"]
 			temp = request.data["temp"]
-			t = Sensor(oximeter=oximeter, temp=temp)
+			t = Sensor(spo2=spo2, bpm=bpm, temp=temp)
 			t.save()
 			return Response(data="Data Entry Succesful",status=status.HTTP_200_OK)
+		
 		except:
 			data = {'ERROR' : "Enter Valid Data"}
 			return Response(data=data,status=status.HTTP_406_NOT_ACCEPTABLE)
@@ -368,3 +373,119 @@ def api_doctor(request):
 # 	except:
 # 		data = {'ERROR' : "Enter Valid Data"}
 # 		return Response(data=data,status=status.HTTP_406_NOT_ACCEPTABLE)
+
+@api_view(["GET","POST"])
+def api_stream(request):
+	if(request.method == "GET"):
+		try:
+			obj_s = Stream.objects.all()[0]
+			data= {
+						"link" : obj_s.link, 
+					}
+			return Response(data=data,status=status.HTTP_200_OK)
+
+		except:
+			data = {'ERROR' : "Data not Found."}
+			return Response(data=data,status=status.HTTP_404_NOT_FOUND)
+	elif(request.method == "POST"):
+		try:
+			link = request.data["link"]
+			obj_s = Stream(0,link = link)
+			obj_s.save()
+			return Response(data="Data Entry Succesful",status=status.HTTP_200_OK)
+		except:
+			data = {'ERROR' : "Enter Valid Data"}
+			return Response(data=data,status=status.HTTP_406_NOT_ACCEPTABLE)
+
+@api_view(["GET","POST"])
+def api_medicine(request):
+	if(request.method == "GET"):
+		try:
+			obj_m = Medicine.objects.all()
+			data = {}
+			j=0
+			for i in obj_m.iterator():
+				data[j] = {
+							"id" : i.id,
+							"medicine_name" : i.medicine_name,
+							"description" : i.description,
+							"days" : i.days,
+							"time" : i.time
+						}
+				j+=1
+			return Response(data=data,status=status.HTTP_200_OK)
+
+		except:
+			data = {'ERROR' : "Data not Found."}
+			return Response(data=data,status=status.HTTP_404_NOT_FOUND)
+	elif(request.method == "POST"):
+		try:
+			medicine_name = request.data["medicine_name"]
+			description = request.data["description"]
+			days = request.data["days"]
+			time = request.data["time"]
+			obj_m = Medicine(medicine_name=medicine_name, description=description, days=days, time=time)
+			obj_m.save()
+			return Response(data="Data Entry Succesful",status=status.HTTP_200_OK)
+		
+		except:
+			data = {'ERROR' : "Enter Valid Data"}
+	return Response(data=data,status=status.HTTP_406_NOT_ACCEPTABLE)
+
+@api_view(["DELETE","GET"])
+def delete_medicine(request, pk):
+	if(request.method == "DELETE" or request.method == "GET"):
+		print(pk)
+		try:
+			Medicine.objects.get(id = pk).delete()
+			return Response(data="Data deleted Successfully",status=status.HTTP_200_OK)
+		except:
+			return Response(data="ID not found",status=status.HTTP_404_NOT_FOUND)
+
+@api_view(["GET","POST"])
+def api_stream(request):
+	if(request.method == "GET"):
+		try:
+			obj_s = Stream.objects.all()[0]
+			data= {
+						"link" : obj_s.link, 
+					}
+			return Response(data=data,status=status.HTTP_200_OK)
+
+		except:
+			data = {'ERROR' : "Data not Found."}
+			return Response(data=data,status=status.HTTP_404_NOT_FOUND)
+	elif(request.method == "POST"):
+		try:
+			link = request.data["link"]
+			obj_s = Stream(0,link = link)
+			obj_s.save()
+			return Response(data="Data Entry Succesful",status=status.HTTP_200_OK)
+		except:
+			data = {'ERROR' : "Enter Valid Data"}
+			return Response(data=data,status=status.HTTP_406_NOT_ACCEPTABLE)
+
+@api_view(["GET","POST"])
+def api_audio(request):
+	if(request.method == "GET"):
+		try:
+			obj_a = Audio.objects.all()[0]
+			data = {
+				"time" : obj_a.time,
+				"record" : obj_a.record.url
+			}
+			return Response(data=data,status=status.HTTP_200_OK)
+
+		except:
+			data = {'ERROR' : "Data not Found."}
+			return Response(data=data,status=status.HTTP_404_NOT_FOUND)
+	elif(request.method == "POST"):
+		try:
+			record = request.data["record"]
+			obj_a = Audio(0,record=record)
+			obj_a.save()
+			return Response(data="Data Entry Succesful",status=status.HTTP_200_OK)
+		
+		except:
+			data = {'ERROR' : "Enter Valid Data"}
+	return Response(data=data,status=status.HTTP_406_NOT_ACCEPTABLE)
