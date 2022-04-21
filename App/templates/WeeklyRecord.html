@@ -43,7 +43,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#" class="sidebar__nav__link">
+                  <a href="#" class="sidebar__nav__link" id="liveStream">
                     <i class="fa fa-camera"></i>
                     <span class="sidebar__nav__text">Live Streaming</span>
                   </a>
@@ -69,43 +69,51 @@
                     <table style="border: 2px solid black; text-align: center; width: 80%; margin-bottom: 50px;" id="myTable">
                         <tr>
                             <th style="border: 1px solid black;  background-color:#D3D3D3">Temperature</th>
-                            <th style="border: 1px solid black;  background-color:lightgray">Oximeter</th>
+                            <th style="border: 1px solid black;  background-color:lightgray">BPM</th>
+                            <th style="border: 1px solid black;  background-color:lightgray">SPO2</th>
                             <th style="border: 1px solid black;  background-color:lightgray">Time and Date</th>
                         </tr>
                         <tr>
                             <td id="data11"></td>
                             <td id="data12"></td>
                             <td id="data13"></td>
+                            <td id="data14"></td>
                         </tr>
                         <tr>
                             <td id="data21"></td>
                             <td id="data22"></td>
                             <td id="data23"></td>
+                            <td id="data24"></td>
                         </tr>
                         <tr>
                             <td id="data31"></td>
                             <td id="data32"></td>
                             <td id="data33"></td>
+                            <td id="data34"></td>
                         </tr>
                         <tr>
                             <td id="data41"></td>
                             <td id="data42"></td>
                             <td id="data43"></td>
+                            <td id="data44"></td>
                         </tr>
                         <tr>
                             <td id="data51"></td>
                             <td id="data52"></td>
                             <td id="data53"></td>
+                            <td id="data54"></td>
                         </tr>
                         <tr>
                             <td id="data61"></td>
                             <td id="data62"></td>
                             <td id="data63"></td>
+                            <td id="data64"></td>
                         </tr>
                         <tr>
                             <td id="data71"></td>
                             <td id="data72"></td>
                             <td id="data73"></td>
+                            <td id="data74"></td>
                         </tr>
                     </table>
                 </center>
@@ -141,37 +149,39 @@
                     const fivthObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 5]]
                     const sixthObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 6]]
                     const seventhObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 7]]
-                    const firstoxi = firstObject.Oximeter;
-                    const secondoxi = secondObject.Oximeter;
-                    const thirdoxi = thirdObject.Oximeter;
-                    const fourthoxi = fourthObject.Oximeter;
-                    const fivthoxi = fivthObject.Oximeter;
-                    const sixthoxi = sixthObject.Oximeter;
-                    const seventhoxi = seventhObject.Oximeter;
-                    const firstTemp = firstObject.Temperature;
-                    const secondTemp = secondObject.Temperature;
-                    const thirdTemp = thirdObject.Temperature;
-                    const fourthTemp = fourthObject.Temperature;
-                    const fivthTemp = fivthObject.Temperature;
-                    const sixthTemp = sixthObject.Temperature;
-                    const seventhTemp = seventhObject.Temperature;
+
+                    const firstbpm = firstObject.bpm;
+                    const secondbpm = secondObject.bpm;
+                    const thirdbpm = thirdObject.bpm;
+                    const fourthbpm = fourthObject.bpm;
+                    const fifthbpm = fivthObject.bpm;
+                    const sixthbpm = sixthObject.bpm;
+                    const seventhbpm = seventhObject.bpm;
+
+                    const firstspo = firstObject.spo2;
+                    const secondspo = secondObject.spo2;
+                    const thirdspo = thirdObject.spo2;
+                    const fourthspo = fourthObject.spo2;
+                    const fifthspo = fivthObject.spo2;
+                    const sixthspo = sixthObject.spo2;
+                    const seventhspo = seventhObject.spo2;
 
                     var ctxL = document.getElementById("lineChart").getContext('2d');
                     var myLineChart = new Chart(ctxL, {
                         type: 'line',
                         data: {
-                            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                            labels: [seventhObject.Time,sixthObject.Time,fivthObject.Time,fourthObject.Time,thirdObject.Time,secondObject.Time,firstObject.Time],
                             datasets: 
                             [
                                 {
-                                    label: "Oximeter Reading",
-                                    data: [seventhoxi, sixthoxi, fivthoxi, fourthoxi, thirdoxi, secondoxi, firstoxi],
+                                    label: "BPM(beats per minute)",
+                                    data: [seventhbpm, sixthbpm, fifthbpm, fourthbpm, thirdbpm, secondbpm, firstbpm],
                                     borderColor: ['rgba(200, 99, 132, .7)',],
                                     borderWidth: 7
                                 },
                                 {
-                                    label: "Room Temperature Reading",
-                                    data: [seventhTemp, sixthTemp, fivthTemp, fourthTemp, thirdTemp, secondTemp, firstTemp],
+                                    label: "SPO2(oxygen saturation)",
+                                    data: [seventhspo, sixthspo, fifthspo, fourthspo, thirdspo, secondspo, firstspo],
                                     borderColor: ['rgba(0, 49, 82, .7)',],
                                     borderWidth: 7
                                 },
@@ -199,47 +209,49 @@
                     const fivthObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 5]]
                     const sixthObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 6]]
                     const seventhObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 7]]
-                    const firstoxi = firstObject.Oximeter;
-                    const secondoxi = secondObject.Oximeter;
-                    const thirdoxi = thirdObject.Oximeter;
-                    const fourthoxi = fourthObject.Oximeter;
-                    const fivthoxi = fivthObject.Oximeter;
-                    const sixthoxi = sixthObject.Oximeter;
-                    const seventhoxi = seventhObject.Oximeter;
-                    //const firstTime = firstObject.Time;
-                    //const secondTime = secondObject.Time;
-                    //const thirdTime = thirdObject.Time;
-                    //const fourthTime = fourthObject.Time;
-                    //const fivthTime = fivthObject.Time;
-                    //const sixthTime = sixthObject.Time;
-                    //const seventhTime = seventhObject.Time;
+
+                    const firstbpm = firstObject.bpm;
+                    const secondbpm = secondObject.bpm;
+                    const thirdbpm = thirdObject.bpm;
+                    const fourthbpm = fourthObject.bpm;
+                    const fifthbpm = fivthObject.bpm;
+                    const sixthbpm = sixthObject.bpm;
+                    const seventhbpm = seventhObject.bpm;
+
                     document.getElementById('data11').innerHTML = firstObject.Temperature;
-                    document.getElementById('data12').innerHTML = firstoxi;
-                    document.getElementById('data13').innerHTML = firstObject.Time;
+                    document.getElementById('data12').innerHTML = firstbpm;
+                    document.getElementById('data13').innerHTML = firstObject.spo2;
+                    document.getElementById('data14').innerHTML = firstObject.Time;
 
                     document.getElementById('data21').innerHTML = secondObject.Temperature;
-                    document.getElementById('data22').innerHTML = secondoxi;
-                    document.getElementById('data23').innerHTML = secondObject.Time;
+                    document.getElementById('data22').innerHTML = secondbpm;
+                    document.getElementById('data23').innerHTML = secondObject.spo2;
+                    document.getElementById('data24').innerHTML = secondObject.Time;
 
                     document.getElementById('data31').innerHTML = thirdObject.Temperature;
-                    document.getElementById('data32').innerHTML = thirdoxi;
-                    document.getElementById('data33').innerHTML = thirdObject.Time;
+                    document.getElementById('data32').innerHTML = thirdbpm;
+                    document.getElementById('data33').innerHTML = secondObject.spo2;
+                    document.getElementById('data34').innerHTML = thirdObject.Time;
 
                     document.getElementById('data41').innerHTML = fourthObject.Temperature;
-                    document.getElementById('data42').innerHTML = fourthoxi;
-                    document.getElementById('data43').innerHTML = fourthObject.Time;
+                    document.getElementById('data42').innerHTML = fourthbpm;
+                    document.getElementById('data43').innerHTML = secondObject.spo2;
+                    document.getElementById('data44').innerHTML = fourthObject.Time;
 
                     document.getElementById('data51').innerHTML = fivthObject.Temperature;
-                    document.getElementById('data52').innerHTML = fivthoxi;
-                    document.getElementById('data53').innerHTML = fivthObject.Time;
+                    document.getElementById('data52').innerHTML = fifthbpm;
+                    document.getElementById('data53').innerHTML = secondObject.spo2;
+                    document.getElementById('data54').innerHTML = fivthObject.Time;
 
                     document.getElementById('data61').innerHTML = sixthObject.Temperature;
-                    document.getElementById('data62').innerHTML = sixthoxi;
-                    document.getElementById('data63').innerHTML = sixthObject.Time;
+                    document.getElementById('data62').innerHTML = sixthbpm;
+                    document.getElementById('data63').innerHTML = secondObject.spo2;
+                    document.getElementById('data64').innerHTML = sixthObject.Time;
 
                     document.getElementById('data71').innerHTML = seventhObject.Temperature;
-                    document.getElementById('data72').innerHTML = seventhoxi;
-                    document.getElementById('data73').innerHTML = seventhObject.Time;
+                    document.getElementById('data72').innerHTML = seventhbpm;
+                    document.getElementById('data73').innerHTML = secondObject.spo2;
+                    document.getElementById('data74').innerHTML = seventhObject.Time;
                 }
             })
         })
