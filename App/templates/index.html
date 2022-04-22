@@ -44,7 +44,7 @@
                     document.getElementById('patientHeight').innerHTML = PatientData.height + ' feet';
                     document.getElementById('patientWeight').innerHTML = PatientData.weight;
                     document.getElementById('patientContact').innerHTML = PatientData.mobile;
-                    document.getElementById('patientAddress').innerHTML = PatientData.address;
+                    document.getElementById('patientAddress').innerHTML = PatientData.address +', '+ PatientData.city +', '+ PatientData.state;
                 }
 
             })
@@ -56,11 +56,11 @@
                 method: 'GET',
                 dataType: 'JSON',
                 success: function (sensorData) {
-                    console.log(sensorData);
                     let i = Object.keys(sensorData).length;
                     const lstObject = sensorData[Object.keys(sensorData)[Object.keys(sensorData).length - 1]]
                     document.getElementById('roomtemperature').value = lstObject.Temperature;
-                    document.getElementById('oximeter').value = lstObject.Oximeter;
+                    document.getElementById('bpm').value = lstObject.bpm;
+                    document.getElementById('spo').value = lstObject.spo2;
                     document.getElementById('time').value = lstObject.Time;
                 }
             })
@@ -77,11 +77,23 @@
                     document.getElementById('caretakeremail').innerHTML = careTakerData.email;
                     document.getElementById('caretakergender').innerHTML = careTakerData.gender;
                     document.getElementById('caretakeraddress').innerHTML = careTakerData.address;
-                    console.log("Succes Fetch")
                 }
 
             })
-            console.log("Faild Fetch")
+        })
+
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api_stream',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function (streamData) {
+                    console.log(streamData.link);
+                    document.getElementById('liveStream1').href = streamData.link;
+                    document.getElementById('liveStream2').href = streamData.link;
+                }
+
+            })
         })
 
         $(document).ready(function () {
@@ -92,7 +104,7 @@
                 success: function (doctorData) {
                     document.getElementById('doctorname').innerHTML = doctorData.name;
                     document.getElementById('doctordesignation').innerHTML = doctorData.designation;
-                    document.getElementById('doctorhospitalname').innerHTML = doctorData.email;
+                    document.getElementById('doctorhospitalname').innerHTML = doctorData.hospital_name;
                     document.getElementById('doctorContact').innerHTML = doctorData.mobile;
                 }
 
@@ -131,7 +143,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="sidebar__nav__link">
+                    <a class="sidebar__nav__link" id="liveStream1">
                         <i class="fa fa-camera"></i>
                         <span class="sidebar__nav__text">Live Streaming</span>
                     </a>
@@ -154,16 +166,16 @@
         <div class="marginleft">
             <div class="w3-container container">
                 <span id="leftitem">
-                    <h6>Patient Name: <span id="patientName"></span> </h6>
-                    <h6>Patient Age: <span id="patientAge"></span></h6>
-                    <h6>Patient Blood Group: <span id="patientBloodGroup"></span></h6>
-                    <h6>Patient Height: <span id="patientHeight"></span></h6>
-                    <h6>Patient Weight: <span id="patientWeight"></span></h6>
+                    <h6>Name: <span id="patientName"></span> </h6>
+                    <h6>Age: <span id="patientAge"></span></h6>
+                    <h6>Blood Group: <span id="patientBloodGroup"></span></h6>
+                    <h6>Height: <span id="patientHeight"></span></h6>
+                    <h6>Weight: <span id="patientWeight"></span></h6>
                 </span>
                 <span id="rightitem">
-                    <h6>Patient Mobile Number: <span id="patientContact"></span> </h6>
+                    <h6>Mobile Number: <span id="patientContact"></span> </h6>
                     <h6 id="patientContact"></h6>
-                    <h6>Patient Address: <span id="patientAddress"></span> </h6>
+                    <h6>Address: <span id="patientAddress"></span> </h6>
                     <h6 id="patientAddress"></h6>
                 </span>
             </div>
@@ -171,18 +183,40 @@
             <h2 id="head">Real time Reading</h2>
             <div class="realTime" style="text-align: center;">
                 <div>
-                    <label>Room Temperature: </label>
-                    <input type="number" id="roomtemperature" name="roomtemperature"
-                        style="font-weight: bold;font-size: 20px" readonly><br>
-                    <label>Oximeter: </label>
-                    <input type="number" id="oximeter" placeholder="Oxi." name="oximeter"
-                        style="font-weight: bold; font-size: 20px" readonly>
                     <input type="text" id="time" placeholder="time" name="time" readonly
-                        style="width:140px;font-weight: bold; font-size: 15=px"><br><br><br>
+                        style="width:180px;font-weight: bold; font-size: 18px"><br><br>
+                    <label>Body Temperature: </label>
+                    <input type="number" id="roomtemperature" name="roomtemperature"
+                        style="width: 60px;
+                        height: 40px;
+                        border-radius: 10px;
+                        border-width: 3px;
+                        text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;" readonly><br>
+                    <label>BPM (Beats per minute): </label>
+                    <input type="number" id="bpm" placeholder="BPM" name="oximeter"
+                        style="width: 60px;
+                        height: 40px;
+                        border-radius: 10px;
+                        border-width: 3px;
+                        text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;" readonly><br>
+                    <label>SPO2 (Oxygen Saturation): </label>
+                    <input type="number" id="spo" placeholder="SPO" name="oximeter"
+                        style="width: 60px;
+                        height: 40px;
+                        border-radius: 10px;
+                        border-width: 3px;
+                        text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;" readonly>
+                    <br><br><br>
                 </div>
                 <div>
                     <div class="w3-bar button">
-                        <a href="#"><img src='../static/radio.png' length='50px' width='50px' id="btn"
+                        <a id="liveStream2"><img src='../static/radio.png' length='50px' width='50px' id="btn"
                                 title='live Streaming'></a>&nbsp;&nbsp;&nbsp;
                         <a href="#"><img src='../static/voice.png' length='50px' width='50px' id='btn'
                                 title='voice command'></a>
@@ -193,18 +227,19 @@
             <h2 id="head">Care Taker Details</h2>
             <div class="container w3-container marginleft">
                 <span id="leftitem">
-                    <h6>Care Taker Name: <span id="caretakername"></span></h6>
-                    <h6>Care Taker Phone Number: <span id="caretakercontact"></span></h6>
-                    <h6>Care Taker E-Mail: <span id="caretakeremail"></span></h6>
-                    <h6>Care Taker Gender: <span id="caretakergender"></span></h6>
-                    <h6>Care Taker Address: <span id="caretakeraddress"></span></h6>
+                    <h6>Name: <span id="caretakername"></span></h6>
+                    <h6>Phone Number: <span id="caretakercontact"></span></h6>
+                    <h6>E-Mail: <span id="caretakeremail"></span></h6>
+                    <h6>Gender: <span id="caretakergender"></span></h6>
+                    <h6>Address: <span id="caretakeraddress"></span></h6>
                 </span>
             </div>
             <hr>
 
             <div class="container doctordetails mystyle w3-container" style="margin-bottom: 60px;">
+                <h2 id="head">Doctor Details</h2>
                 <span id="leftitem">
-                    <h6>Doctor Name: <span id="doctorname"></span></h6>
+                    <h6>Name: <span id="doctorname"></span></h6>
                     <h6>Designation: <span id="doctordesignation"></span></h6>
                 </span>
                 <span id="rightitem">

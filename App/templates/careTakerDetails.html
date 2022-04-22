@@ -19,6 +19,19 @@
                 document.getElementById('ct').innerHTML = datetime;
                 display_c();
             }
+
+            $(document).ready(function () {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api_stream',
+                    method: 'GET',
+                    dataType: 'JSON',
+                    success: function (streamData) {
+                        console.log(streamData.link);
+                        document.getElementById('liveStream').href = streamData.link;
+                    }
+                })
+            })
+
             $(document).ready(function() {
                 $.ajax({
                     url: 'http://127.0.0.1:8000/api_care_taker',
@@ -72,7 +85,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="#" class="sidebar__nav__link">
+                  <a href="#" class="sidebar__nav__link" id="liveStream">
                     <i class="fa fa-camera"></i>
                     <span class="sidebar__nav__text">Live Streaming</span>
                   </a>
