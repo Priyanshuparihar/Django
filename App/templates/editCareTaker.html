@@ -22,7 +22,7 @@
             
             $(document).ready(function () {
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/api_stream',
+                    url: 'https://patient-medical-report.herokuapp.com/api_stream',
                     method: 'GET',
                     dataType: 'JSON',
                     success: function (streamData) {
@@ -34,7 +34,7 @@
 
             $(document).ready(function() {
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/api_care_taker',
+                    url: 'https://patient-medical-report.herokuapp.com/api_care_taker',
                     method:'GET',
                     dataType:'JSON',
                     success: function(careTakerData){
@@ -55,7 +55,7 @@
             })
 
             function submitInputHandler(){
-                const url = 'http://127.0.0.1:8000/api_care_taker';
+                const url = 'https://patient-medical-report.herokuapp.com/api_care_taker';
                 const firstname = document.getElementById('carefirstname').value;
                 const lastname = document.getElementById('carelastname').value;
                 const dob = document.getElementById('caredob').value;
@@ -93,7 +93,7 @@
                         console.log(data);
                     }
                 });
-                window.location.replace('http://127.0.0.1:8000/careTaker');
+                window.location.replace('https://patient-medical-report.herokuapp.com/careTaker');
             }
 
         </script>
@@ -103,25 +103,25 @@
             <nav>
               <ul class="sidebar__nav">
                 <li>
-                  <a href="http://127.0.0.1:8000/index" class="sidebar__nav__link">
+                  <a href="https://patient-medical-report.herokuapp.com/index" class="sidebar__nav__link">
                     <i class="fa fa-home"></i>
                     <span class="sidebar__nav__text">Home</span>
                   </a>
                 </li>
                 <li>
-                  <a href="http://127.0.0.1:8000/profile" class="sidebar__nav__link">
+                  <a href="https://patient-medical-report.herokuapp.com/profile" class="sidebar__nav__link">
                     <i class="fa fa-user-circle-o"></i>
                     <span class="sidebar__nav__text">Patient Details</span>
                   </a>
                 </li>
                 <li>
-                    <a href="http://127.0.0.1:8000/careTaker" class="sidebar__nav__link">
+                    <a href="https://patient-medical-report.herokuapp.com/careTaker" class="sidebar__nav__link">
                       <i class="fa fa-handshake-o"></i>
                       <span class="sidebar__nav__text">Care Taker Details</span>
                     </a>
                 </li>
                 <li>
-                  <a href="http://127.0.0.1:8000/doctorDetails" class="sidebar__nav__link">
+                  <a href="https://patient-medical-report.herokuapp.com/doctorDetails" class="sidebar__nav__link">
                     <i class="fa fa-user-md"></i>
                     <span class="sidebar__nav__text">Doctor Details</span>
                   </a>
@@ -133,7 +133,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="http://127.0.0.1:8000/weeklyRecord" class="sidebar__nav__link">
+                  <a href="https://patient-medical-report.herokuapp.com/weeklyRecord" class="sidebar__nav__link">
                     <i class="fa fa-history"></i>
                     <span class="sidebar__nav__text">Weekly Record</span>
                   </a>

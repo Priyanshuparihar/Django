@@ -13,19 +13,19 @@
             <nav>
               <ul class="sidebar__nav">
                 <li>
-                  <a href="http://127.0.0.1:8000/index#" class="sidebar__nav__link">
+                  <a href="https://patient-medical-report.herokuapp.com/index#" class="sidebar__nav__link">
                     <i class="fa fa-home"></i>
                     <span class="sidebar__nav__text">Home</span>
                   </a>
                 </li>
                 <li>
-                  <a href="http://127.0.0.1:8000/profile" class="sidebar__nav__link">
+                  <a href="https://patient-medical-report.herokuapp.com/profile" class="sidebar__nav__link">
                     <i class="fa fa-user-circle-o"></i>
                     <span class="sidebar__nav__text">Patient Details</span>
                   </a>
                 </li>
                 <li>
-                  <a href="http://127.0.0.1:8000/careTaker" class="sidebar__nav__link">
+                  <a href="https://patient-medical-report.herokuapp.com/careTaker" class="sidebar__nav__link">
                     <i class="fa fa-handshake-o"></i>
                     <span class="sidebar__nav__text">Care Taker Details</span>
                   </a>
@@ -43,7 +43,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="http://127.0.0.1:8000/weeklyRecord" class="sidebar__nav__link">
+                  <a href="https://patient-medical-report.herokuapp.com/weeklyRecord" class="sidebar__nav__link">
                     <i class="fa fa-history"></i>
                     <span class="sidebar__nav__text">Weekly Record</span>
                   </a>
@@ -72,7 +72,7 @@
                         margin: 14px 2px;
                         border-radius:50%;
                         cursor: pointer;">
-                        <a href='http://127.0.0.1:8000/editDoctorDetails'><i class="fa fa-pencil"></i></a>
+                        <a href='https://patient-medical-report.herokuapp.com/editDoctorDetails'><i class="fa fa-pencil"></i></a>
                     </button>
                 </span>
             </div>
@@ -139,7 +139,7 @@
 
     $(document).ready(function () {
       $.ajax({
-          url: 'http://127.0.0.1:8000/api_stream',
+          url: 'https://patient-medical-report.herokuapp.com/api_stream',
           method: 'GET',
           dataType: 'JSON',
           success: function (streamData) {
@@ -151,7 +151,7 @@
 
         $(document).ready(function() {
             $.ajax({
-                url: 'http://127.0.0.1:8000/api_doctor',
+                url: 'https://patient-medical-report.herokuapp.com/api_doctor',
                 method:'GET',
                 dataType:'JSON',
                 success: function(doctorData){
