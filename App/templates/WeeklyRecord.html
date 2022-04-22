@@ -19,25 +19,25 @@
             <nav>
               <ul class="sidebar__nav">
                 <li>
-                  <a href="http://127.0.0.1:8000/index#" class="sidebar__nav__link">
+                  <a href="https://patient-medical-report.herokuapp.com/index#" class="sidebar__nav__link">
                     <i class="fa fa-home"></i>
                     <span class="sidebar__nav__text">Home</span>
                   </a>
                 </li>
                 <li>
-                  <a href="http://127.0.0.1:8000/profile" class="sidebar__nav__link">
+                  <a href="https://patient-medical-report.herokuapp.com/profile" class="sidebar__nav__link">
                     <i class="fa fa-user-circle-o"></i>
                     <span class="sidebar__nav__text">Patient Details</span>
                   </a>
                 </li>
                 <li>
-                    <a href="http://127.0.0.1:8000/careTaker" class="sidebar__nav__link">
+                    <a href="https://patient-medical-report.herokuapp.com/careTaker" class="sidebar__nav__link">
                       <i class="fa fa-handshake-o"></i>
                       <span class="sidebar__nav__text">Care Taker Details</span>
                     </a>
                 </li>
                 <li>
-                  <a href="http://127.0.0.1:8000/doctorDetails" class="sidebar__nav__link">
+                  <a href="https://patient-medical-report.herokuapp.com/doctorDetails" class="sidebar__nav__link">
                     <i class="fa fa-user-md"></i>
                     <span class="sidebar__nav__text">Doctor Details</span>
                   </a>
@@ -137,7 +137,7 @@
         }
         $(document).ready(function() {
             $.ajax({
-                url: 'http://127.0.0.1:8000/api_sensor',
+                url: 'https://patient-medical-report.herokuapp.com/api_sensor',
                 method:'GET',
                 dataType:'JSON',
                 success: function(sensorData){
@@ -197,7 +197,7 @@
         
         $(document).ready(function() {
             $.ajax({
-                url: 'http://127.0.0.1:8000/api_sensor',
+                url: 'https://patient-medical-report.herokuapp.com/api_sensor',
                 method:'GET',
                 dataType:'JSON',
                 success: function(sensorData){
