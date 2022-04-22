@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
-	obj_p = Patient.objects.all()[0]
+	obj_p = Patient.objects.last()
 	data = {"Patient": obj_p}
 	return render(request, "index.html", data)
 
@@ -93,7 +93,7 @@ def api_sensor(request):
 def api_patient(request):
 	if(request.method == "GET"):
 		try:
-			obj_p = Patient.objects.all()[0]
+			obj_p = Patient.objects.last()
 			data ={
 					"first_name" : obj_p.first_name,
 					"last_name": obj_p.last_name,
@@ -140,7 +140,7 @@ def api_patient(request):
 			medical_problems = request.data["medical_problems"]
 			allergies = request.data["allergies"]
 
-			obj_p = Patient(0,
+			obj_p = Patient(
 			first_name = first_name,
 			last_name = last_name,
 			DOB = DOB,
@@ -215,7 +215,7 @@ def api_patient(request):
 def api_care_taker(request):
 	if(request.method == "GET"):
 		try:
-			obj_ct = Care_Taker.objects.all()[0]
+			obj_ct = Care_Taker.objects.last()
 			data = {
 					"first_name" : obj_ct.first_name,
 					"last_name": obj_ct.last_name,
@@ -250,7 +250,7 @@ def api_care_taker(request):
 			state = request.data["state"]
 			country = request.data["country"]
 
-			obj_ct = Care_Taker(0,
+			obj_ct = Care_Taker(
 			first_name = first_name,
 			last_name = last_name,
 			DOB = DOB,
@@ -307,7 +307,7 @@ def api_care_taker(request):
 def api_doctor(request):
 	if(request.method == "GET"):
 		try:
-			obj_d = Doctor.objects.all()[0]
+			obj_d = Doctor.objects.last()
 			data = {"name" : obj_d.name, 
 					"age" : obj_d.age, 
 					"email" : obj_d.email, 
@@ -332,7 +332,7 @@ def api_doctor(request):
 			hospital_name = request.data["hospital_name"]
 			hospital_address = request.data["hospital_address"]
 
-			obj_d = Doctor(0,
+			obj_d = Doctor(
 			name = name,
 			age = age,
 			email = email,
@@ -378,7 +378,7 @@ def api_doctor(request):
 def api_stream(request):
 	if(request.method == "GET"):
 		try:
-			obj_s = Stream.objects.all()[0]
+			obj_s = Stream.objects.last()
 			data= {
 						"link" : obj_s.link, 
 					}
@@ -390,7 +390,7 @@ def api_stream(request):
 	elif(request.method == "POST"):
 		try:
 			link = request.data["link"]
-			obj_s = Stream(0,link = link)
+			obj_s = Stream(link = link)
 			obj_s.save()
 			return Response(data="Data Entry Succesful",status=status.HTTP_200_OK)
 		except:
@@ -446,7 +446,7 @@ def delete_medicine(request, pk):
 def api_stream(request):
 	if(request.method == "GET"):
 		try:
-			obj_s = Stream.objects.all()[0]
+			obj_s = Stream.objects.last()
 			data= {
 						"link" : obj_s.link, 
 					}
@@ -458,7 +458,7 @@ def api_stream(request):
 	elif(request.method == "POST"):
 		try:
 			link = request.data["link"]
-			obj_s = Stream(0,link = link)
+			obj_s = Stream(link = link)
 			obj_s.save()
 			return Response(data="Data Entry Succesful",status=status.HTTP_200_OK)
 		except:
@@ -469,7 +469,7 @@ def api_stream(request):
 def api_audio(request):
 	if(request.method == "GET"):
 		try:
-			obj_a = Audio.objects.all()[0]
+			obj_a = Audio.objects.last()
 			data = {
 				"time" : obj_a.time,
 				"record" : obj_a.record.url
@@ -482,7 +482,7 @@ def api_audio(request):
 	elif(request.method == "POST"):
 		try:
 			record = request.data["record"]
-			obj_a = Audio(0,record=record)
+			obj_a = Audio(record=record)
 			obj_a.save()
 			return Response(data="Data Entry Succesful",status=status.HTTP_200_OK)
 		
