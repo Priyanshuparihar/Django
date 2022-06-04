@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class Sensor(models.Model):
@@ -65,6 +65,6 @@ class Medicine(models.Model):
 
 class Audio(models.Model):
 	time = models.DateTimeField(auto_now = True)
-	record=models.FileField(upload_to= "audios/")
+	record = CloudinaryField(resource_type='', folder='audio')
 
 
