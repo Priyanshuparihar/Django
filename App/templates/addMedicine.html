@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Medicworks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <script src="../static/script.js"></script> -->
+
+    <link rel="stylesheet" href="../static/style.css">
+    <script>
+        function display_c() {
+            var refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_ct()', refresh)
+        }
+
+        function display_ct() {
+            var x = new Date()
+            var datetime = x.getFullYear() + '-' + (x.getMonth() + 1) + '-' + x.getDate() + ', ' + x.getHours() + ':' + x.getMinutes() + ':' + x.getSeconds();
+            document.getElementById('ct').innerHTML = datetime;
+            display_c();
+        }
+        function submitInputHandler(){
+            const url = 'https://patient-medical-report.herokuapp.com/api_medicine';
+            const medicinename = document.getElementById('medicinename').value;
+            const medicinedescription = document.getElementById('medicinedescription').value;
+            const time = document.getElementById('time').value;
+            var selectedDays = [];
+            for (var option of document.getElementById('days').options)
+            {
+                if (option.selected) {
+                    selectedDays.push(option.value);
+                }
+            }
+
+            const data = {
+              "medicine_name": medicinename,
+              "description": medicinedescription,
+              "days": selectedDays,
+              "time": time,
+            };
+            const data1 = JSON.stringify(data);
+            console.log(data1);
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (
+                    data,
+                    ) {
+                    console.log(data);
+                }
+            });
+        }
+    </script>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+        }
+        
+        th, td {
+          padding: 10px;
+        }
+    </style>
+</head>
+
+<body onload=display_ct();>
+    <aside class="sidebar">
+        <nav>
+            <ul class="sidebar__nav">
+                <li>
+                    <a href="https://patient-medical-report.herokuapp.com/index" class="sidebar__nav__link">
+                        <i class="fa fa-home"></i>
+                        <span class="sidebar__nav__text">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://patient-medical-report.herokuapp.com/profile" class="sidebar__nav__link">
+                        <i class="fa fa-user-circle-o"></i>
+                        <span class="sidebar__nav__text">Patient Details</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://patient-medical-report.herokuapp.com/careTaker" class="sidebar__nav__link">
+                        <i class="fa fa-handshake-o"></i>
+                        <span class="sidebar__nav__text">Care Taker Details</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://patient-medical-report.herokuapp.com/doctorDetails" class="sidebar__nav__link">
+                        <i class="fa fa-user-md"></i>
+                        <span class="sidebar__nav__text">Doctor Details</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sidebar__nav__link" id="liveStream1">
+                        <i class="fa fa-camera"></i>
+                        <span class="sidebar__nav__text">Live Streaming</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://patient-medical-report.herokuapp.com/medicine" class="sidebar__nav__link" id="liveStream1">
+                        <i class="	fa fa-medkit"></i>
+                        <span class="sidebar__nav__text">Medicine Record</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://patient-medical-report.herokuapp.com/weeklyRecord" class="sidebar__nav__link">
+                        <i class="fa fa-history"></i>
+                        <span class="sidebar__nav__text">Weekly Record</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <div>
+        <div class="w3-teal w3-center w3-container">
+            <h1>Medicine Records</h1>
+            <h6>Today: <span id="ct"></span></h6>
+        </div><br><br>
+        <div>
+            <center>
+                <table cellpadding = "10" align="center" style="margin-bottom: 50px;">
+                    <tr>
+                        <td>MEDICINE NAME</td>
+                        <td><input type="text" name="Medicine_Name" id="medicinename" maxlength="30" style="border-radius: 10px; width: 100%" required /></td>
+                    </tr>
+                    <tr>
+                        <td>MEDICINE DESCRIPTION</td>
+                        <td><textarea name="Medicine_Description" rows="4" cols="30" id="medicinedescription" style="border-radius: 10px; width: 100%" required ></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Days</td>
+                        <td>
+                            <select name="days" id="days" multiple style="border-radius: 10px; width: 100%">
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                                <option value="Sunday">Sunday</option>
+                            </select>
+                            <p>Hold down the Ctrl (windows) or Command (Mac) button to <br>select multiple options.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Time to take medicine</td>
+                        <td><input type="time" name="time" maxlength="30" id="time" style="border-radius: 10px;" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center" >
+                            <input type="submit" name="SubmitButton" value="Submit" class="submit" style="border-radius: 10px; width: 100px;" onclick="submitInputHandler()">
+                            <input type="reset" name="ResetButton" value="Reset" class="reset" style="border-radius: 10px;width: 100px;">
+                        </td>
+                    </tr>
+                </table>
+            </center>
+        </div>
+    </div>
+</body>
+
+</html>

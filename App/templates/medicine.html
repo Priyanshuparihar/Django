@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Medicworks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <script src="../static/script.js"></script> -->
+
+    <link rel="stylesheet" href="../static/style.css">
+    <script>
+        function display_c() {
+            var refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_ct()', refresh)
+        }
+
+        function display_ct() {
+            var x = new Date()
+            var datetime = x.getFullYear() + '-' + (x.getMonth() + 1) + '-' + x.getDate() + ', ' + x.getHours() + ':' + x.getMinutes() + ':' + x.getSeconds();
+            document.getElementById('ct').innerHTML = datetime;
+            display_c();
+        }
+        $(document).ready(function() {
+            $.ajax({
+                url: 'https://patient-medical-report.herokuapp.com/api_medicine',
+                method:'GET',
+                dataType:'JSON',
+                success: function(sensorData){
+                    for(let i=0;i<Object.keys(sensorData).length;i++){
+                        var row = document.getElementById('table').insertRow(i+1);
+                        var cell1 = row.insertCell(0)
+                        var cell2 = row.insertCell(1)
+                        var cell3 = row.insertCell(2) 
+                        var cell4 = row.insertCell(3)
+                        cell1.innerHTML = sensorData[i].medicine_name;
+                        cell2.innerHTML = sensorData[i].description;
+                        cell3.innerHTML = sensorData[i].days;
+                        cell4.innerHTML = sensorData[i].time;
+                    }
+                }
+            })
+        })
+    </script>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+        }
+        
+        th, td {
+          padding: 10px;
+        }
+    </style>
+</head>
+
+<body onload=display_ct();>
+    <aside class="sidebar">
+        <nav>
+          <ul class="sidebar__nav">
+            <li>
+              <a href="https://patient-medical-report.herokuapp.com/index" class="sidebar__nav__link">
+                <i class="fa fa-home"></i>
+                <span class="sidebar__nav__text">Home</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://patient-medical-report.herokuapp.com/profile" class="sidebar__nav__link">
+                <i class="fa fa-user-circle-o"></i>
+                <span class="sidebar__nav__text">Patient Details</span>
+              </a>
+            </li>
+            <li>
+                <a href="https://patient-medical-report.herokuapp.com/careTaker" class="sidebar__nav__link">
+                  <i class="fa fa-handshake-o"></i>
+                  <span class="sidebar__nav__text">Care Taker Details</span>
+                </a>
+            </li>
+            <li>
+              <a href="https://patient-medical-report.herokuapp.com/doctorDetails" class="sidebar__nav__link">
+                <i class="fa fa-user-md"></i>
+                <span class="sidebar__nav__text">Doctor Details</span>
+              </a>
+            </li>
+            <li>
+              <a class="sidebar__nav__link" id="liveStream">
+                <i class="fa fa-camera"></i>
+                <span class="sidebar__nav__text">Live Streaming</span>
+              </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar__nav__link" id="liveStream1">
+                    <i class="	fa fa-medkit"></i>
+                    <span class="sidebar__nav__text">Medicine Record</span>
+                </a>
+            </li>
+            <li>
+              <a href="https://patient-medical-report.herokuapp.com/weeklyRecord" class="sidebar__nav__link">
+                <i class="fa fa-history"></i>
+                <span class="sidebar__nav__text">Weekly Record</span>
+              </a>
+            </li> 
+          </ul>
+        </nav>
+    </aside>
+    <div>
+        <div class="w3-teal w3-center w3-container">
+            <h1>Medicine Records</h1>
+            <h6>Today: <span id="ct"></span></h6>
+        </div><br><br>
+        <div>
+            <center>
+                <table id="table">
+                    <tr class="w3-teal">
+                        <th>Medicine Name</th>
+                        <th>Medicine Description</th>
+                        <th>Week Days</th>
+                        <th>Timings</th>
+                    </tr>
+                </table>
+                <button 
+                    class="button w3-teal"
+                    style="
+                        border: none;
+                        font-size: 17px;
+                        color: white;
+                        padding: 15px ;
+                        text-align: center;
+                        text-decoration: none;
+                        display: inline-block;
+                        margin: 14px 2px;
+                        border-radius:50%;
+                        cursor: pointer;">
+                    <a href='https://patient-medical-report.herokuapp.com/addMedicine'>Add More</a>
+                </button>
+            </center>
+        </div>
+    </div>
+</body>
+
+</html>

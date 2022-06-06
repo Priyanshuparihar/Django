@@ -37,6 +37,12 @@ def careTaker(request):
 def editCareTaker(request):
 	return render(request, 'editCareTaker.html')
 
+def medicine(request):
+	return render(request, 'medicine.html')
+
+def addMedicine(request):
+	return render(request, 'addMedicine.html')
+
 @api_view(["GET","POST"])
 def api_sensor(request):
 	if(request.method == "GET"):

@@ -26,6 +26,8 @@ urlpatterns = [
     path('weeklyRecord', weeklyRecord, name="WeeklyRecords"),
     path('careTaker',careTaker,name='careTaker'),
     path('editCareTaker',editCareTaker,name='editCareTaker'),
+    path('medicine',medicine,name='medicine'),
+    path('addMedicine',addMedicine,name='addMedicine'),
     path('admin/', admin.site.urls),
     path("api_sensor",api_sensor),
     # path("update_sensor",update_sensor),
